@@ -34,6 +34,7 @@ import org.apache.lucene.util.RamUsageEstimator;
 import org.apache.lucene.util.automaton.CompiledAutomaton;
 import org.apache.lucene.util.fst.ByteSequenceOutputs;
 import org.apache.lucene.util.fst.FST;
+import org.apache.lucene.util.fst.OffHeapFSTStore;
 
 /**
  * BlockTree's implementation of {@link Terms}.
@@ -88,7 +89,7 @@ public final class FieldReader extends Terms implements Accountable {
       final IndexInput clone = indexIn.clone();
       //System.out.println("start=" + indexStartFP + " field=" + fieldInfo.name);
       clone.seek(indexStartFP);
-      index = new FST<>(clone, ByteSequenceOutputs.getSingleton());
+      index = new FST<>(clone, ByteSequenceOutputs.getSingleton(), new OffHeapFSTStore());
         
       /*
         if (false) {
